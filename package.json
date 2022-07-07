@@ -1,0 +1,13 @@
+{
+  "name": "minecraft",
+  "version": "1.0.0",
+  "description": "ahzheng bot",
+  "main": "AhZhengBot.js",
+  "license": "MIT",
+  "dependencies": {
+    "mineflayer": "^4.3.0",
+    "mineflayer-web-inventory": "^1.8.3",
+    "open": "^8.4.0",
+    "prismarine-viewer": "^1.23.0"
+  }
+}
