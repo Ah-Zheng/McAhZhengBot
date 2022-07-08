@@ -1,8 +1,7 @@
 {
     "server": "mcfallout.net",
-    "port": 25565,
+    "port": "25565",
     "mail": "信箱",
     "password": "密碼",
-    "language": "en",
     "auth": "microsoft"
 }

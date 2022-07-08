@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "lib": [
+      "ES6"
+    ],
+    "declaration": true,
+    "declarationMap": false,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "checkJs": false,
+    "strict": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "moduleResolution": "Node16",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./src/McAhZhengBot.ts",
+    "./src/types/module.d.ts",
+    "./src/types/custom.d.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist/**"
+  ]
+}
