@@ -1,8 +1,9 @@
 {
-    "server": "mcfallout.net",
+    "server": "mc.ledream.net",
     "port": 25565,
-    "mail": "信箱",
+    "version": "1.18.2",
+    "mail": "帳號",
     "password": "密碼",
-    "language": "en",
+    "language": "zh-tw",
     "auth": "microsoft"
 }

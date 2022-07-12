@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 
-const sys = `[${chalk.hex('#007fff')('McAhZheng')}]`;
+const sys = `[${chalk.hex('#007fff')('McAhZhengBot')}]`;
 
-export default {
+export {
     sys
 };

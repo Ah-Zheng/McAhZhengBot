@@ -5,6 +5,7 @@
     "lib": [
       "ES6"
     ],
+    "outDir": "./McAhZhengBot",
     "declaration": true,
     "declarationMap": false,
     "strictNullChecks": true,
@@ -19,9 +20,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "./src/McAhZhengBot.ts",
-    "./src/types/module.d.ts",
-    "./src/types/custom.d.ts",
+    "src/**/*",
   ],
   "exclude": [
     "node_modules",

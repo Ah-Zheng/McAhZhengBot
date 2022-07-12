@@ -3,6 +3,11 @@ function hasHealthMessage(str: string): boolean {
     return reg.test(str);
 }
 
-export default {
-    hasHealthMessage
+function hasPointToYou(str: string): boolean {
+    return str.includes('-> you]')
+}
+
+export {
+    hasHealthMessage,
+    hasPointToYou
 };

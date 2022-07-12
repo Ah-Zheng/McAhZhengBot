@@ -1,4 +1,7 @@
 {
     "S_CHECK_BOT_VIEWER": "查看機器人當前畫面請打開",
-    "S_CHECK_BOT_BACKPACK": "查看機器人背包請打開"
+    "S_CHECK_BOT_BACKPACK": "查看機器人背包請打開",
+    "S_RECONNECT_IN_TEN_SECOND": "客戶端與伺服器斷線，10秒後將會自動重新連線",
+    "S_LEVEL %s": "等級：%s",
+    "S_HAND_HELD %s": "手持：%s"
 }

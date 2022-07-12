@@ -1,6 +1,15 @@
 {
     "health": false,
-    "show_backpack": true,
-    "show_viewer": true,
-    "show_viewer_first_person": false
+    "web": {
+        "backpack": false,
+        "viewer": false,
+        "viewer_first_person": false
+    },
+    "discord": {
+        "token": ""
+    },
+    "attack": {
+        "auto": false,
+        "list": []
+    }
 }

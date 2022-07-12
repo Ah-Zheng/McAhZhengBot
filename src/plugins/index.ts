@@ -1,57 +1,55 @@
 import { Bot } from 'mineflayer';
-import i18n from './i18n';
+import { msgTmp, i18n } from '../utils';
 import chalk from 'chalk';
-import msgTmp from './message-tmp';
+import discord from './discord';
 
 const inventoryViwer = require('mineflayer-web-inventory');
 const mineflayerViwer = require('prismarine-viewer').mineflayer;
 const openWeb = require('open');
 
 export interface ThirdPartyOptions {
-    isShow: boolean;
+    /** 機器人實例 */
     bot: Bot;
 }
 
 export interface MineflayerViwerOption extends ThirdPartyOptions {
+    /** 服務Port號 */
     port?: number;
+    /** 是否使用第一人稱視角 */
     firstPerson: boolean;
 }
 
 export interface ShowBackpackOption extends ThirdPartyOptions {
+    /** 服務Port號 */
     port?: number;
 }
 
 // 查看機器人當前畫面
 function showMineflayerViwer({
-    isShow,
     bot,
     port = 3007,
     firstPerson,
 }: MineflayerViwerOption) {
-    if (isShow) {
-        mineflayerViwer(bot, {
-            port: port,
-            firstPerson: firstPerson
-        });
-        openWeb(`http://localhost:${port}`);
-        console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`${i18n.__('S_CHECK_BOT_VIEWER')} => http://localhost:${port}`)}`);
-    }
+    mineflayerViwer(bot, {
+        port: port,
+        firstPerson: firstPerson
+    });
+    openWeb(`http://localhost:${port}`);
+    console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`${i18n.__('S_CHECK_BOT_VIEWER')} => http://localhost:${port}`)}`);
 }
 
 // 查看背包服務
 function showBackpack({
-    isShow,
     bot,
     port = 3000
 }: ShowBackpackOption) {
-    if (isShow) {
-        inventoryViwer(bot);
-        openWeb(`http://localhost:${port}`);
-        console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`查看機器人背包請打開 => http://localhost:${port}`)}`);
-    }
+    inventoryViwer(bot);
+    openWeb(`http://localhost:${port}`);
+    console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`${i18n.__('S_CHECK_BOT_BACKPACK')} => http://localhost:${port}`)}`);
 }
 
 export default {
     showMineflayerViwer,
-    showBackpack
-}
+    showBackpack,
+    discord
+};

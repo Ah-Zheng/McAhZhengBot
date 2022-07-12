@@ -1,13 +1,9 @@
-import plugins from './third-party'; // 第三方插件
-import validate from './validate'; // 驗證
-import custom from './custom-data'; // 客製化資料
-import msgTmp from './message-tmp'; // 訊息模板
+import * as validate from './validate'; // 驗證
+import * as msgTmp from './message-tmp'; // 訊息模板
+import i18n from './i18n'; // 多國語系
 
-const utils = {
+export {
     msgTmp,
-    custom,
-    plugins,
-    validate
+    validate,
+    i18n
 };
-
-export default utils;
