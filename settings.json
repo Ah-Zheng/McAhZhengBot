@@ -6,6 +6,8 @@
         "viewer_first_person": false
     },
     "discord": {
+        "enable_bot": true,
+        "enable_send_to_channel": true,
         "token": ""
     },
     "attack": {

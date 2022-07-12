@@ -16,7 +16,7 @@ import { validate, msgTmp, i18n } from './utils';
 import { config, settings } from './customData';
 
 // CMD
-import { inquire, raid } from './cmd';
+import { inquire, attack } from './cmd';
 
 function startBot(isRestart = false) {
     const bot = createBot({
@@ -40,6 +40,10 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
         registerReadline(bot);
     }
 
+    if (settings.discord.enable_bot) {
+        plugins.discord.login(settings.discord.token);
+    }
+
     if (settings.web.viewer) {
         plugins.showMineflayerViwer({ bot, firstPerson: settings.web.viewer_first_person });
     }
@@ -49,7 +53,7 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
     }
 
     if (settings.attack.auto) {
-        raid.attackTarget(bot, settings);
+        attack.attackTarget(bot, settings);
     }
 }
 
@@ -59,9 +63,9 @@ function botOnMessage(bot: Bot, msg: ChatMessage) {
     }
 
     // 當收到私訊時執行
-    if (validate.hasPointToYou(msg.toString())) {
-        inquire.experience(bot, '');
-    }
+    // if (validate.hasPointToYou(msg.toString())) {
+    //     inquire.experience(bot, '');
+    // }
 
     console.log(msg.toAnsi());
 }
@@ -86,11 +90,11 @@ function registerReadline(bot: Bot) {
             case 'exp':
                 inquire.experience(bot);
                 break;
-            case 'sword':
-                raid.equipSword(bot);
-                break;
             case 'heldItem':
                 inquire.heldItem(bot);
+                break;
+            case 'sword':
+                attack.equipSword(bot);
                 break;
             default:
                 bot.chat(line);

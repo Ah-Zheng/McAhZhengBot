@@ -1,4 +1,5 @@
 import { Client, Intents } from 'discord.js';
+import { msgTmp, i18n } from '../utils';
 
 function login(token: string) {
     const client = new Client({
@@ -11,7 +12,13 @@ function login(token: string) {
     });
 
     client.on('ready', () => {
-        console.log('object');
+        console.log(msgTmp.dcBoard);
+        console.log(i18n.__('S_DC_BOT_ONLINE %s', client.user!.tag));
+        console.log(msgTmp.dcBoard);
+    });
+
+    client.on('message', msg => {
+
     });
 
     client.on('messageCreate', msg => {

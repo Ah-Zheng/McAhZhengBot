@@ -34,6 +34,8 @@ export interface Attack {
 export interface Discord {
     /** Discord Bot Token  */
     token: string;
+    /** 是否啟用DC Bot */
+    enable_bot: boolean;
 }
 
 export interface Settings {

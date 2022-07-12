@@ -1,7 +1,7 @@
 import inquire from './inquire';
-import raid from './raid';
+import attack from './attack';
 
 export {
     inquire,
-    raid
+    attack
 };
