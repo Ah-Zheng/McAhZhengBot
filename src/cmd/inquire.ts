@@ -3,32 +3,71 @@
  */
 
 import { Bot } from 'mineflayer';
-import { i18n } from '../utils';
+import { i18n, msgTmp } from '../utils';
 import chalk from 'chalk';
 
 
 
-// 查詢經驗值
+/** 查詢經驗值 */
 function experience(bot: Bot, sendAuther = '') {
-    if (sendAuther) {
-        bot.chat(`/m ${sendAuther} ${i18n.__('S_LEVEL %s', bot.experience.level.toString())}`);
+    if (!!sendAuther) {
+        bot.chat(`/m ${sendAuther} ${i18n.__('S_LEVEL', {
+            level: msgTmp.renderGreen(`${bot.experience.level}`),
+            progress: msgTmp.renderGreen(`${bot.experience.progress * 100} %`)
+        })}`);
         return;
     }
 
-    console.log(`BotName：${bot.username}, ${i18n.__('S_LEVEL %s', chalk.hex('#00cc99')(`${bot.experience.level}`))}`);
+    console.log(i18n.__('S_LEVEL', {
+        level: msgTmp.renderGreen(`${bot.experience.level} `),
+        progress: msgTmp.renderGreen(`${bot.experience.progress * 100} % `)
+    }));
 }
 
-// 查詢手持的物品
+/** 查詢手持的物品 */
 function heldItem(bot: Bot, sendAuther = '') {
     if (sendAuther) {
-        bot.chat(`/m ${sendAuther} ${bot.heldItem?.displayName}`);
+        bot.chat(`/ m ${sendAuther} ${bot.heldItem ? bot.heldItem.displayName : i18n.__('S_DO_NOT_DELD_ANY')} `);
         return;
     }
 
-    console.log(i18n.__('S_HAND_HELD %s', chalk.blueBright(bot.heldItem?.displayName)));
+    console.log(
+        bot.heldItem
+            ? i18n.__('S_HAND_HELD', { item: chalk.blueBright(bot.heldItem?.displayName) })
+            : i18n.__('S_DO_NOT_DELD_ANY')
+    );
+}
+
+/** 查詢機器人資訊 */
+function botInfo(bot: Bot, sendAuther = '') {
+    if (sendAuther) {
+        bot.chat(`/ m ${sendAuther} ${msgTmp.botInfoBoard} `);
+        return;
+    }
+
+    console.log(msgTmp.botInfoBoard);
+    console.log('               機器人資訊');
+    console.log(msgTmp.botInfoBoard);
+    console.log(i18n.__('S_NAME', { name: bot.username }));
+    console.log(i18n.__('S_HEALTH', { health: `${bot.health}` }), '/ 20');
+    console.log(i18n.__('S_FOOD', { food: `${bot.food}` }), '/ 20');
+    console.log(i18n.__('S_LEVEL', {
+        level: msgTmp.renderGreen(`${bot.experience.level} `),
+        progress: msgTmp.renderGreen(`${bot.experience.progress * 100} % `)
+    }));
+    console.log(i18n.__('S_HAND_HELD', {
+        item: chalk.blueBright(bot.heldItem ? bot.heldItem.displayName : i18n.__('S_NOTHING'))
+    }));
+    console.log(msgTmp.botInfoBoard);
+}
+
+function balance(bot: Bot) {
+    bot.chat('/money');
 }
 
 export default {
     experience,
-    heldItem
+    heldItem,
+    botInfo,
+    balance
 };

@@ -17,9 +17,13 @@
     "chalk": "4.1.2",
     "dayjs": "^1.11.3",
     "discord.js": "^13.8.1",
+    "figlet": "^1.5.2",
+    "gradient-string": "^2.0.1",
     "i18n": "^0.15.0",
+    "inquirer": "8.0.0",
     "mineflayer": "^4.3.0",
     "mineflayer-web-inventory": "^1.8.3",
+    "nanospinner": "^1.1.0",
     "open": "^8.4.0",
     "prismarine-viewer": "^1.23.0"
   },
@@ -34,6 +38,8 @@
     ]
   },
   "devDependencies": {
+    "@types/figlet": "^1.5.4",
+    "@types/gradient-string": "^1.1.2",
     "@types/i18n": "^0.13.3",
     "pkg": "^5.7.0",
     "ts-node": "^10.8.2",

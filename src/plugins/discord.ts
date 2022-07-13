@@ -13,7 +13,7 @@ function login(token: string) {
 
     client.on('ready', () => {
         console.log(msgTmp.dcBoard);
-        console.log(i18n.__('S_DC_BOT_ONLINE %s', client.user!.tag));
+        console.log(i18n.__('S_DC_BOT_ONLINE', { botTag: client.user!.tag }));
         console.log(msgTmp.dcBoard);
     });
 

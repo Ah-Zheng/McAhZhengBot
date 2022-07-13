@@ -41,6 +41,8 @@ export interface Discord {
 export interface Settings {
     /** 是否顯示目標生命訊息 */
     health: boolean;
+    /** 可操控機器的人白名單 */
+    whitelist: string[];
     /** 網頁顯示 */
     web: Web;
     /** DC相關設定 */

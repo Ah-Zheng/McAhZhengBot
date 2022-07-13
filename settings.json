@@ -1,12 +1,13 @@
 {
     "health": false,
+    "whitelist": [],
     "web": {
         "backpack": false,
         "viewer": false,
         "viewer_first_person": false
     },
     "discord": {
-        "enable_bot": true,
+        "enable_bot": false,
         "enable_send_to_channel": true,
         "token": ""
     },

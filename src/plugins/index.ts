@@ -2,6 +2,7 @@ import { Bot } from 'mineflayer';
 import { msgTmp, i18n } from '../utils';
 import chalk from 'chalk';
 import discord from './discord';
+import spinner from './nanospinner';
 
 const inventoryViwer = require('mineflayer-web-inventory');
 const mineflayerViwer = require('prismarine-viewer').mineflayer;
@@ -51,5 +52,6 @@ function showBackpack({
 export default {
     showMineflayerViwer,
     showBackpack,
-    discord
+    discord,
+    spinner
 };

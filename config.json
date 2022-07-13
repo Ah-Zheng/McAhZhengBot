@@ -2,8 +2,8 @@
     "server": "mc.ledream.net",
     "port": 25565,
     "version": "1.18.2",
-    "username": "帳號",
-    "password": "密碼",
+    "username": "",
+    "password": "",
     "language": "zh-tw",
     "auth": "microsoft"
 }

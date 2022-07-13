@@ -5,6 +5,7 @@ import { ChatMessage } from 'prismarine-chat';
 // Plugins
 import { createInterface } from 'readline';
 import dayjs from 'dayjs';
+import inquirer from 'inquirer';
 
 // Custom Plugins
 import plugins from './plugins';
@@ -16,26 +17,58 @@ import { validate, msgTmp, i18n } from './utils';
 import { config, settings } from './customData';
 
 // CMD
-import { inquire, attack } from './cmd';
+import { attack, useCommand } from './cmd';
 
-function startBot(isRestart = false) {
+async function startBot(isRestart = false) {
+    let username = config.username;
+    let password = config.password;
+
+    if (!username) {
+        await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'username',
+                message: `${i18n.__('S_PLZ_INPUT_USERNAME')} >`,
+                validate: (async input => !!input || i18n.__('S_USERNAME_ERROR'))
+            },
+            {
+                type: 'password',
+                name: 'password',
+                message: `${i18n.__('S_PLZ_INPUT_PASSWORD')} >`
+            }
+        ]).then(answer => {
+            username = answer.username;
+            password = answer.password;
+        });
+    }
+
+    plugins.spinner.start({ text: '登入中...' });
+
     const bot = createBot({
         host: config.server,
-        username: config.username,
-        password: config.password,
+        username,
+        password,
         auth: config.auth,
         physicsEnabled: true
     });
 
     // 當機器人啟動時執行
-    bot.once('spawn', () => botOnSpawn(bot, isRestart));
+    bot.once('spawn', async () => botOnSpawn(bot, isRestart));
+    // 當收到私訊時執行
+    bot.on('chat', async (username, message, translate, jsonMsg) => botOnChat(bot, username, message));
     // 當收到訊息時執行
-    bot.on('message', msg => botOnMessage(bot, msg));
+    bot.on('message', async msg => botOnMessage(bot, msg));
+
+    bot.on('error', err => {
+        console.log('err :>> ', err);
+    });
     // 當機器人斷線時執行
-    bot.once('end', () => botOnEnd());
+    bot.once('end', reason => botOnEnd(reason));
 }
 
 function botOnSpawn(bot: Bot, isRestart: boolean) {
+    plugins.spinner.success({ text: '機器人已連線成功!!' });
+
     if (!isRestart) {
         registerReadline(bot);
     }
@@ -57,20 +90,22 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
     }
 }
 
+function botOnChat(bot: Bot, playerId: string, msg: string) {
+    if (settings.whitelist.includes(playerId) && (playerId !== bot.username)) {
+        useCommand(bot, msg.split('] ')[1], playerId);
+    }
+}
+
 function botOnMessage(bot: Bot, msg: ChatMessage) {
     if (!settings.health && validate.hasHealthMessage(msg.toString())) {
         return;
     }
 
-    // 當收到私訊時執行
-    // if (validate.hasPointToYou(msg.toString())) {
-    //     inquire.experience(bot, '');
-    // }
-
     console.log(msg.toAnsi());
 }
 
-function botOnEnd() {
+function botOnEnd(reason: string) {
+    console.log(`斷線原因：${reason}`);
     console.log(`${msgTmp.sys} ${i18n.__('S_RECONNECT_IN_TEN_SECOND')}...\n@${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}`);
 
     setTimeout(() => {
@@ -85,26 +120,14 @@ function registerReadline(bot: Bot) {
         terminal: false
     });
 
-    readline.on('line', async line => {
-        switch (line) {
-            case 'exp':
-                inquire.experience(bot);
-                break;
-            case 'heldItem':
-                inquire.heldItem(bot);
-                break;
-            case 'sword':
-                attack.equipSword(bot);
-                break;
-            default:
-                bot.chat(line);
-                break;
-        }
-    });
+    readline.on('line', async line => useCommand(bot, line));
 }
 
 /** Main Place */
 try {
+    console.log(msgTmp.botBanner);
+    console.log('Author：AhZheng');
+    console.log('Discord： 阿正#6058\n');
     startBot();
 } catch (err) {
     console.log('err :>> ', err);

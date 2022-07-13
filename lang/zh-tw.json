@@ -1,9 +1,17 @@
 {
+    "S_PLZ_INPUT_USERNAME": "請輸入帳號",
+    "S_PLZ_INPUT_PASSWORD": "請輸入密碼",
+    "S_USERNAME_ERROR": "帳號不得為空",
+    "S_RECONNECT_IN_TEN_SECOND": "客戶端與伺服器斷線，10秒後將會自動重新連線",
     "S_CHECK_BOT_VIEWER": "查看機器人當前畫面請打開",
     "S_CHECK_BOT_BACKPACK": "查看機器人背包請打開",
-    "S_RECONNECT_IN_TEN_SECOND": "客戶端與伺服器斷線，10秒後將會自動重新連線",
-    "S_LEVEL %s": "等級：%s",
-    "S_HAND_HELD %s": "手持：%s",
-    "S_DC_BOT_ONLINE %s": "Discord Bot '%s' 已上線",
-    "S_DC_BOT_OFFLINE": ""
+    "S_NAME": "名稱：{{name}}",
+    "S_HEALTH": "生命值：{{health}}",
+    "S_FOOD": "飽食度：{{food}}",
+    "S_LEVEL": "等級：{{level}}, 經驗值：{{progress}}",
+    "S_HAND_HELD": "手持：{{item}}",
+    "S_NOTHING": "無任何東西",
+    "S_DO_NOT_HELD_ANY": "未手持任何東西",
+    "S_ALREADY_EQUIP_SWORD": "已手持武器",
+    "S_DC_BOT_ONLINE": "Discord Bot '{{botTag}}' 已上線"
 }
