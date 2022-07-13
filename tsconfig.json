@@ -5,7 +5,7 @@
     "lib": [
       "ES6"
     ],
-    "outDir": "./McAhZhengBot",
+    "outDir": "./dist",
     "declaration": true,
     "declarationMap": false,
     "strictNullChecks": true,

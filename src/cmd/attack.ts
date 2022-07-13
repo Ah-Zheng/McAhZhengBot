@@ -9,17 +9,23 @@ import { i18n } from '../utils';
 /** 攻擊目標 */
 function attackTarget(bot: Bot, settings: Settings) {
     const preyList = settings.attack.list;
+    let count = 0;
 
     bot.on('physicsTick', () => {
-        for (let preyEntity in bot.entities) {
-            if (
-                // 檢測機器人與目標距離是否小於等於6
-                bot.entity.position.distanceTo(bot.entities[preyEntity].position) <= 6 &&
-                // 比對是否為要攻擊的目標
-                preyList.includes(bot.entities[preyEntity].name as string)
-            ) {
-                bot.attack(bot.entities[preyEntity]);
+        count++;
+
+        if (count === settings.attack.interval_ticks) {
+            for (let preyEntity in bot.entities) {
+                if (
+                    // 檢測機器人與目標距離是否小於等於6
+                    bot.entity.position.distanceTo(bot.entities[preyEntity].position) <= 6 &&
+                    // 比對是否為要攻擊的目標
+                    preyList.includes(bot.entities[preyEntity].name as string)
+                ) {
+                    bot.attack(bot.entities[preyEntity]);
+                }
             }
+            count = 0;
         }
     });
 }

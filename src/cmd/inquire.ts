@@ -14,7 +14,7 @@ function experience(bot: Bot, sendAuther = '') {
         bot.chat(`/m ${sendAuther} ${i18n.__('S_LEVEL', {
             level: msgTmp.renderGreen(`${bot.experience.level}`),
             progress: msgTmp.renderGreen(`${bot.experience.progress * 100} %`)
-        })}`);
+        }).toString()}`);
         return;
     }
 

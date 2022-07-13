@@ -27,6 +27,8 @@ export interface Web {
 export interface Attack {
     /** 是否自動攻擊 */
     auto: boolean;
+    /** 攻擊頻率 */
+    interval_ticks: number;
     /** 攻擊清單 */
     list: string[];
 }

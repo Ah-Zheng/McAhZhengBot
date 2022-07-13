@@ -1,5 +1,5 @@
 {
-  "name": "minecraft",
+  "name": "mc_ahzheng_bot",
   "version": "1.0.0",
   "description": "ahzheng bot",
   "main": "McAhZhengBot.ts",
@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npx tsc",
     "dev": "ts-node ./src/McAhZhengBot.ts",
-    "pack": "./build.sh"
+    "pkg": "./build.sh"
   },
   "dependencies": {
     "chalk": "4.1.2",
@@ -29,18 +29,16 @@
   },
   "pkg": {
     "assets": [
-      "/node_modules/mineflayer",
-      "/node_modules/mineflayer-web-inventory",
-      "/node_modules/prismarine-viwer",
-      "/node_modules/open",
-      "/node_modules/chalk",
-      "/node_modules/dayjs"
+      "/node_modules/**",
+      "./dist/customData.js",
+      "./dist/**/*.js"
     ]
   },
   "devDependencies": {
     "@types/figlet": "^1.5.4",
     "@types/gradient-string": "^1.1.2",
     "@types/i18n": "^0.13.3",
+    "@types/inquirer": "^8.2.1",
     "pkg": "^5.7.0",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"

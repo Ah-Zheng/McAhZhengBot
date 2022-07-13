@@ -2,7 +2,7 @@
     "health": false,
     "whitelist": [],
     "web": {
-        "backpack": false,
+        "backpack": true,
         "viewer": false,
         "viewer_first_person": false
     },
@@ -12,7 +12,14 @@
         "token": ""
     },
     "attack": {
-        "auto": false,
-        "list": []
+        "auto": true,
+        "interval_ticks": 10,
+        "list": [
+            "witch",
+            "vindicator",
+            "vex",
+            "pillager",
+            "evoker"
+        ]
     }
 }

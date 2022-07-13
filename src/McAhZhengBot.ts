@@ -42,7 +42,7 @@ async function startBot(isRestart = false) {
         });
     }
 
-    plugins.spinner.start({ text: '登入中...' });
+    plugins.spinner.start({ text: '連線中...' });
 
     const bot = createBot({
         host: config.server,
@@ -55,7 +55,7 @@ async function startBot(isRestart = false) {
     // 當機器人啟動時執行
     bot.once('spawn', async () => botOnSpawn(bot, isRestart));
     // 當收到私訊時執行
-    bot.on('chat', async (username, message, translate, jsonMsg) => botOnChat(bot, username, message));
+    // bot.on('chat', async (username, message, translate, jsonMsg) => botOnChat(bot, username, message));
     // 當收到訊息時執行
     bot.on('message', async msg => botOnMessage(bot, msg));
 
@@ -127,7 +127,7 @@ function registerReadline(bot: Bot) {
 try {
     console.log(msgTmp.botBanner);
     console.log('Author：AhZheng');
-    console.log('Discord： 阿正#6058\n');
+    console.log('Discord：阿正#6058\n');
     startBot();
 } catch (err) {
     console.log('err :>> ', err);
