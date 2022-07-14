@@ -18,8 +18,12 @@ export interface Config {
 export interface Web {
     /** 是否開啟查看背包服務 */
     backpack: boolean;
+    /** 查看背包服務 port */
+    backpack_port: number;
     /** 是否開啟查看機器人當前畫面 */
     viewer: boolean;
+    /** 查看當前畫面服務 port */
+    viewer_port: number;
     /** 是否以第一人稱查看機器人當前畫面 */
     viewer_first_person: boolean;
 }

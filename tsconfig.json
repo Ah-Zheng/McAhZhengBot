@@ -6,8 +6,8 @@
       "ES6"
     ],
     "outDir": "./dist",
-    "declaration": true,
-    "declarationMap": false,
+    // "declaration": false,
+    // "declarationMap": false,
     "strictNullChecks": true,
     "allowJs": true,
     "checkJs": false,

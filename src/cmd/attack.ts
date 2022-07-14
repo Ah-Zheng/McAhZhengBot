@@ -7,7 +7,7 @@ import { Settings } from '../customData';
 import { i18n } from '../utils';
 
 /** 攻擊目標 */
-function attackTarget(bot: Bot, settings: Settings) {
+function startAttack(bot: Bot, settings: Settings) {
     const preyList = settings.attack.list;
     let count = 0;
 
@@ -31,7 +31,7 @@ function attackTarget(bot: Bot, settings: Settings) {
 }
 
 /** 偵測停止打怪 */
-function detectAttackStop() {
+function detectStopAttack() {
     //
 }
 
@@ -50,6 +50,6 @@ function equipSword(bot: Bot) {
 }
 
 export default {
-    attackTarget,
+    startAttack,
     equipSword
 };

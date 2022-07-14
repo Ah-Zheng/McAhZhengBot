@@ -1,7 +1,6 @@
 import { Bot } from 'mineflayer';
 import { msgTmp, i18n } from '../utils';
 import chalk from 'chalk';
-// import openWeb from 'open';
 import discord from './discord';
 import spinner from './nanospinner';
 
@@ -35,7 +34,6 @@ function showMineflayerViwer({
         port: port,
         firstPerson: firstPerson
     });
-    // openWeb(`http://127.0.0.1:${port}/`);
     console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`${i18n.__('S_CHECK_BOT_VIEWER')} => http://127.0.0.1:${port}`)}`);
 }
 
@@ -45,7 +43,6 @@ function showBackpack({
     port = 3000
 }: ShowBackpackOption) {
     inventoryViwer(bot);
-    // openWeb(`http://127.0.0.1:${port}/`);
     console.log(`${msgTmp.sys} ${chalk.hex('#00cc99')(`${i18n.__('S_CHECK_BOT_BACKPACK')} => http://127.0.0.1:${port}`)}`);
 }
 

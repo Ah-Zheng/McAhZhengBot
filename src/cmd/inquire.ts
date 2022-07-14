@@ -9,9 +9,9 @@ import chalk from 'chalk';
 
 
 /** 查詢經驗值 */
-function experience(bot: Bot, sendAuther = '') {
-    if (!!sendAuther) {
-        bot.chat(`/m ${sendAuther} ${i18n.__('S_LEVEL', {
+function experience(bot: Bot, sender = '') {
+    if (!!sender) {
+        bot.chat(`/m ${sender} ${i18n.__('S_LEVEL', {
             level: msgTmp.renderGreen(`${bot.experience.level}`),
             progress: msgTmp.renderGreen(`${bot.experience.progress * 100} %`)
         }).toString()}`);
@@ -25,9 +25,9 @@ function experience(bot: Bot, sendAuther = '') {
 }
 
 /** 查詢手持的物品 */
-function heldItem(bot: Bot, sendAuther = '') {
-    if (sendAuther) {
-        bot.chat(`/ m ${sendAuther} ${bot.heldItem ? bot.heldItem.displayName : i18n.__('S_DO_NOT_DELD_ANY')} `);
+function heldItem(bot: Bot, sender = '') {
+    if (sender) {
+        bot.chat(`/ m ${sender} ${bot.heldItem ? bot.heldItem.displayName : i18n.__('S_DO_NOT_DELD_ANY')} `);
         return;
     }
 
@@ -39,9 +39,9 @@ function heldItem(bot: Bot, sendAuther = '') {
 }
 
 /** 查詢機器人資訊 */
-function botInfo(bot: Bot, sendAuther = '') {
-    if (sendAuther) {
-        bot.chat(`/ m ${sendAuther} ${msgTmp.botInfoBoard} `);
+function botInfo(bot: Bot, sender = '') {
+    if (sender) {
+        bot.chat(`/ m ${sender} ${msgTmp.botInfoBoard} `);
         return;
     }
 

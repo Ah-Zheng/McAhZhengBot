@@ -3,7 +3,9 @@
     "whitelist": [],
     "web": {
         "backpack": true,
+        "backpack_port": 3000,
         "viewer": false,
+        "viewer_port": 3007,
         "viewer_first_person": false
     },
     "discord": {
