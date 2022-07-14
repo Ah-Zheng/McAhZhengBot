@@ -1,5 +1,5 @@
 /**
- * Inquire 查詢Bot資訊
+ * Inquire
  */
 
 import { Bot } from 'mineflayer';
@@ -61,6 +61,7 @@ function botInfo(bot: Bot, sender = '') {
     console.log(msgTmp.botInfoBoard);
 }
 
+/** 查詢當前餘額 */
 function balance(bot: Bot) {
     bot.chat('/money');
 }

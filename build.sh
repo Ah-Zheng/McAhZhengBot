@@ -8,6 +8,6 @@ pnpm tsc -p ./tsconfig.json
 
 pkg -c package.json -t "node16-${system}-x64" -o ./McAhZhengBot/McAhZhengBot ./dist/McAhZhengBot.js
 
-cp -r ./lang ./McAhZhengBot
+cp -r ./language ./McAhZhengBot
 cp settings.json ./McAhZhengBot
 cp config.json ./McAhZhengBot

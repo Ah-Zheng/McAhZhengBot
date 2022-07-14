@@ -4,8 +4,8 @@ import path from 'path';
 i18n.configure({
     locales: ['zh-tw'],
     defaultLocale: 'zh-tw',
-    queryParameter: 'lang',
-    directory: path.join('./', 'lang')
+    queryParameter: 'language',
+    directory: path.join('./', 'language')
 });
 
 export default i18n;

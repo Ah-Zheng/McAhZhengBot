@@ -1,3 +1,7 @@
+/**
+ * Plugins
+ */
+
 import { Bot } from 'mineflayer';
 import { msgTmp, i18n } from '../utils';
 import chalk from 'chalk';

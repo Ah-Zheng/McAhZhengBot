@@ -1,5 +1,5 @@
 /**
- * Raid 攻擊相關功能
+ * Attack
  */
 
 import { Bot } from 'mineflayer';
@@ -28,11 +28,6 @@ function startAttack(bot: Bot, settings: Settings) {
             count = 0;
         }
     });
-}
-
-/** 偵測停止打怪 */
-function detectStopAttack() {
-    //
 }
 
 /** 將劍裝備到手上 */

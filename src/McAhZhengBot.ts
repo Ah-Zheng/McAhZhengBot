@@ -167,13 +167,13 @@ function useCommand(bot: Bot, str: string, sender = '') {
         case 'backpack':
             settings.web.backpack
                 ? open(`http://127.0.0.1:${settings.web.backpack_port}`)
-                : console.log(`${msgTmp.sys} 未啟用背包查看服務`);
+                : console.log(`${msgTmp.sys} ${i18n.__('S_DISABLE_CHECK_BACKPACK')}`);
             break;
         /** 查看機器人當前畫面 */
         case 'viewer':
             settings.web.viewer
                 ? open(`http://127.0.0.1:${settings.web.viewer_port}`)
-                : console.log(`${msgTmp.sys} 未啟用當前畫面查看服務`);
+                : console.log(`${msgTmp.sys} ${i18n.__('S_DISABLE_CHECK_VIEWER')}`);
             break;
         default:
             break;
@@ -187,6 +187,6 @@ try {
     console.log('Discord：阿正#6058\n');
 
     startBot();
-} catch (err) {
-    console.log('err :>> ', err);
+} catch (error) {
+    console.error('error :>> ', error);
 }
