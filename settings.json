@@ -2,20 +2,24 @@
     "health": false,
     "whitelist": [],
     "web": {
-        "backpack": true,
+        "backpack": false,
         "backpack_port": 3000,
         "viewer": false,
         "viewer_port": 3007,
         "viewer_first_person": false
     },
     "discord": {
+        "token": "",
+        "user_id": "",
+        "channel_id": "",
         "enable_bot": false,
-        "enable_send_to_channel": true,
-        "token": ""
+        "enable_send_to_channel": false
     },
     "attack": {
-        "auto": true,
-        "interval_ticks": 10,
+        "auto": false,
+        "interval_ticks": 5,
+        "enable_detect_interrupt": true,
+        "check_target_cycle_time": 30,
         "list": [
             "witch",
             "vindicator",

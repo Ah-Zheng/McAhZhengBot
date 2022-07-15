@@ -8,12 +8,14 @@
     "S_NAME": "名稱：{{name}}",
     "S_HEALTH": "生命值：{{health}}",
     "S_FOOD": "飽食度：{{food}}",
-    "S_LEVEL": "等級：{{level}}, 經驗值：{{progress}}",
+    "S_LEVEL": "等級：{{level}}, 經驗值：{{progress}} %",
     "S_HAND_HELD": "手持：{{item}}",
     "S_NOTHING": "無任何東西",
     "S_DO_NOT_HELD_ANY": "未手持任何東西",
     "S_ALREADY_EQUIP_SWORD": "已手持武器",
+    "NO_SWORD": "背包內沒有劍",
     "S_DISABLE_CHECK_BACKPACK": "未啟用背包查看服務",
     "S_DISABLE_CHECK_VIEWER": "未啟用當前畫面查看服務",
+    "S_NO_COMMAND": "無此指令",
     "S_DC_BOT_ONLINE": "Discord Bot '{{botTag}}' 已上線"
 }

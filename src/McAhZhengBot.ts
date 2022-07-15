@@ -6,7 +6,6 @@ import { ChatMessage } from 'prismarine-chat';
 import { createInterface } from 'readline';
 import dayjs from 'dayjs';
 import inquirer from 'inquirer';
-import open from 'open';
 
 // Custom Plugins
 import plugins from './plugins';
@@ -18,7 +17,7 @@ import { validate, msgTmp, i18n } from './utils';
 import { config, settings } from './customData';
 
 // CMD
-import { attack, inquire } from './cmd';
+import { attack, inquire, web } from './cmd';
 
 let count = 0;
 
@@ -45,8 +44,6 @@ async function startBot(isRestart = false) {
         });
     }
 
-    plugins.spinner.start({ text: '連線中...' });
-
     const bot = createBot({
         host: config.server,
         username,
@@ -57,29 +54,23 @@ async function startBot(isRestart = false) {
 
     // 當機器人啟動時執行
     bot.once('spawn', async () => botOnSpawn(bot, isRestart));
-    // 當收到私訊時執行
-    // bot.on('chat', async (username, message) => botOnChat(bot, username, message));
     // 當收到訊息時執行
     bot.on('message', async msg => botOnMessage(bot, msg));
-
-    bot.on('error', err => {
-        console.log('err :>> ', err);
-    });
     // 當機器人斷線時執行
     bot.once('end', reason => botOnEnd(reason));
 }
 
 function botOnSpawn(bot: Bot, isRestart: boolean) {
-    plugins.spinner.success({ text: '機器人已連線成功!!' });
-
     if (!isRestart) {
         registerReadline(bot);
     }
 
+    // Discord 相關
     if (settings.discord.enable_bot) {
-        plugins.discord.login(settings.discord.token);
+        plugins.discord.login(bot, settings.discord);
     }
 
+    // 當前畫面查看服務
     if (settings.web.viewer) {
         plugins.showMineflayerViwer({
             bot,
@@ -88,6 +79,7 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
         });
     }
 
+    // 背包查看服務
     if (settings.web.backpack) {
         plugins.showBackpack({
             bot,
@@ -95,20 +87,45 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
         });
     }
 
+    // 自動攻擊
     if (settings.attack.auto) {
         attack.startAttack(bot, settings);
-    }
-}
 
-// function botOnChat(bot: Bot, sender: string, msg: string) {
-//     if (settings.whitelist.includes(sender) && (sender !== bot.username)) {
-//         // useCommand(bot, msg.split('] ')[1], sender);
-//     }
-// }
+        if (settings.attack.enable_detect_interrupt) {
+            attack.detectAttackInterrupt(bot, settings);
+        }
+    }
+
+}
 
 function botOnMessage(bot: Bot, msg: ChatMessage) {
     if (!settings.health && validate.hasHealthMessage(msg.toString())) {
         return;
+    }
+
+    // 收到私訊
+    if (validate.hasWhisper(msg.toString())) {
+        const msgData = msg.toString().split('[')[1].split(' ');
+        const playerId = msgData[0];
+        const message = msgData[3];
+
+        if (
+            // 私訊者是否在白名單內
+            validate.senderIsInWhitelist(settings.whitelist, playerId) &&
+            // 私訊開頭為`#`則使用指令
+            message.startsWith('#')
+        ) {
+            useCommand(bot, message.split('#')[1], playerId);
+        }
+    }
+
+    // 收到傳送邀請
+    if ((validate.hasTpa(msg.toString()) || validate.hasTpaHere(msg.toString()))) {
+        const playerId = msg.toString().split(' ')[1];
+
+        validate.senderIsInWhitelist(settings.whitelist, playerId)
+            ? bot.chat(`/tpaccept ${playerId}`)
+            : bot.chat(`/tpdeny ${playerId}`)
     }
 
     console.log(msg.toAnsi());
@@ -117,6 +134,10 @@ function botOnMessage(bot: Bot, msg: ChatMessage) {
 function botOnEnd(reason: string) {
     console.log(`斷線原因：${reason}`);
     console.log(`${msgTmp.sys} ${i18n.__('S_RECONNECT_IN_TEN_SECOND')}...\n@${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}`);
+
+    if (settings.attack.auto) {
+        attack.stopAttack(settings);
+    }
 
     setTimeout(() => {
         startBot(true);
@@ -131,51 +152,50 @@ function registerReadline(bot: Bot) {
     });
 
     readline.on('line', async line => {
-        if (line.startsWith('#')) {
-            const val = line.split('#')[1];
-            useCommand(bot, val);
-            return;
-        }
-
-        bot.chat(line);
+        line.startsWith('#')
+            ? useCommand(bot, line.split('#')[1])
+            : bot.chat(line);
     });
 }
 
 function useCommand(bot: Bot, str: string, sender = '') {
-    switch (str) {
+    switch (str.toUpperCase()) {
         /** 查看機器人資訊 */
-        case 'info':
-            inquire.botInfo(bot, sender);
+        case 'INFO':
+            inquire.botInfo(bot);
             break;
         /** 查看經驗 */
-        case 'exp':
+        case 'EXP':
             inquire.experience(bot, sender);
             break;
         /** 查看手持物品 */
-        case 'heldItem':
+        case 'HELDITEM':
             inquire.heldItem(bot, sender);
             break;
         /** 查看餘額 */
-        case 'balance':
+        case 'BALANCE':
             inquire.balance(bot);
             break;
         /** 裝備劍 */
-        case 'sword':
-            attack.equipSword(bot);
+        case 'SWORD':
+            attack.equipSword(bot, sender);
+            inquire.heldItem(bot, sender);
             break;
         /** 查看機器人當前背包 */
-        case 'backpack':
-            settings.web.backpack
-                ? open(`http://127.0.0.1:${settings.web.backpack_port}`)
-                : console.log(`${msgTmp.sys} ${i18n.__('S_DISABLE_CHECK_BACKPACK')}`);
+        case 'BACKPACK':
+            web.openBackpack(settings);
             break;
         /** 查看機器人當前畫面 */
-        case 'viewer':
-            settings.web.viewer
-                ? open(`http://127.0.0.1:${settings.web.viewer_port}`)
-                : console.log(`${msgTmp.sys} ${i18n.__('S_DISABLE_CHECK_VIEWER')}`);
+        case 'VIWER':
+            web.openViewer(settings);
+            break;
+        case 'ATTACK':
+            attack.startAttack(bot, settings);
             break;
         default:
+            sender
+                ? bot.chat(`/m ${sender} ${i18n.__('S_NO_COMMAND')}`)
+                : console.log(`${msgTmp.sys} ${i18n.__('S_NO_COMMAND')}`);
             break;
     }
 }
@@ -184,7 +204,8 @@ function useCommand(bot: Bot, str: string, sender = '') {
 try {
     console.log(msgTmp.botBanner);
     console.log('Author：AhZheng');
-    console.log('Discord：阿正#6058\n');
+    console.log('Discord：阿正#6058');
+    console.log(`server：${config.server}\n`);
 
     startBot();
 } catch (error) {

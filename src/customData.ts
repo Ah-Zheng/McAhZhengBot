@@ -33,6 +33,10 @@ export interface Attack {
     auto: boolean;
     /** 攻擊頻率 */
     interval_ticks: number;
+    /** 是否啟用偵測中斷攻擊 */
+    enable_detect_interrupt: boolean;
+    /** 偵測中斷攻擊的循環時間 */
+    check_target_cycle_time: number;
     /** 攻擊清單 */
     list: string[];
 }
@@ -40,8 +44,14 @@ export interface Attack {
 export interface Discord {
     /** Discord Bot Token  */
     token: string;
+    /** 頻道ID */
+    channel_id: string;
+    /** 用戶ID */
+    user_id: string;
     /** 是否啟用DC Bot */
     enable_bot: boolean;
+    /** 是否啟用發送訊息到頻道的功能 */
+    enable_send_to_channel: boolean;
 }
 
 export interface Settings {

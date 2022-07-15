@@ -6,15 +6,13 @@ import { Bot } from 'mineflayer';
 import { i18n, msgTmp } from '../utils';
 import chalk from 'chalk';
 
-
-
 /** 查詢經驗值 */
 function experience(bot: Bot, sender = '') {
-    if (!!sender) {
+    if (sender) {
         bot.chat(`/m ${sender} ${i18n.__('S_LEVEL', {
-            level: msgTmp.renderGreen(`${bot.experience.level}`),
-            progress: msgTmp.renderGreen(`${bot.experience.progress * 100} %`)
-        }).toString()}`);
+            level: bot.experience.level.toString(),
+            progress: (bot.experience.progress * 100).toString()
+        })}`);
         return;
     }
 
@@ -27,24 +25,22 @@ function experience(bot: Bot, sender = '') {
 /** 查詢手持的物品 */
 function heldItem(bot: Bot, sender = '') {
     if (sender) {
-        bot.chat(`/ m ${sender} ${bot.heldItem ? bot.heldItem.displayName : i18n.__('S_DO_NOT_DELD_ANY')} `);
+        const msg = `/m ${sender} ${bot.heldItem
+            ? i18n.__('S_HAND_HELD', { item: bot.heldItem.displayName })
+            : i18n.__('S_DO_NOT_HELD_ANY')}`;
+        bot.chat(msg);
         return;
     }
 
     console.log(
         bot.heldItem
-            ? i18n.__('S_HAND_HELD', { item: chalk.blueBright(bot.heldItem?.displayName) })
+            ? i18n.__('S_HAND_HELD', { item: chalk.blueBright(bot.heldItem.displayName) })
             : i18n.__('S_DO_NOT_DELD_ANY')
     );
 }
 
 /** 查詢機器人資訊 */
-function botInfo(bot: Bot, sender = '') {
-    if (sender) {
-        bot.chat(`/ m ${sender} ${msgTmp.botInfoBoard} `);
-        return;
-    }
-
+function botInfo(bot: Bot) {
     console.log(msgTmp.botInfoBoard);
     console.log('               機器人資訊');
     console.log(msgTmp.botInfoBoard);
