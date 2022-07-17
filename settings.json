@@ -2,22 +2,22 @@
     "health": false,
     "whitelist": [],
     "web": {
-        "backpack": false,
+        "backpack": true,
         "backpack_port": 3000,
         "viewer": false,
         "viewer_port": 3007,
         "viewer_first_person": false
     },
     "discord": {
+        "enable_bot": false,
+        "enable_send_to_channel": true,
         "token": "",
         "user_id": "",
-        "channel_id": "",
-        "enable_bot": false,
-        "enable_send_to_channel": false
+        "channel_id": ""
     },
     "attack": {
-        "auto": false,
-        "interval_ticks": 5,
+        "auto": true,
+        "interval_ticks": 10,
         "enable_detect_interrupt": true,
         "check_target_cycle_time": 30,
         "list": [
@@ -27,5 +27,10 @@
             "pillager",
             "evoker"
         ]
+    },
+    "restart": {
+        "wait_time": 5,
+        "enable_teleport": false,
+        "public_teleportation_id": ""
     }
 }

@@ -5,10 +5,10 @@
 import { Bot } from 'mineflayer';
 import { Settings } from '../customData';
 import { i18n } from '../utils';
+import plugins from '../plugins';
 
 let hasTarget = false;
 let detectAttackInterruptInterval: NodeJS.Timer | null = null;
-let attacking = true;
 
 /** 攻擊目標 */
 function startAttack(bot: Bot, settings: Settings) {
@@ -16,12 +16,6 @@ function startAttack(bot: Bot, settings: Settings) {
     let count = 0;
 
     const autoAttackLoop = () => {
-        if (!attacking) {
-            bot.removeListener('physicsTick', autoAttackLoop);
-            attacking = true;
-            return;
-        }
-
         count++;
 
         if (count === settings.attack.interval_ticks) {
@@ -35,6 +29,7 @@ function startAttack(bot: Bot, settings: Settings) {
                     preyList.includes(bot.entities[preyEntity].name as string)
                 ) {
                     bot.attack(bot.entities[preyEntity]);
+
                     if (!hasTarget) {
                         hasTarget = true
                     }
@@ -53,19 +48,19 @@ function detectAttackInterrupt(bot: Bot, settings: Settings) {
 
     detectAttackInterruptInterval = setInterval(() => {
         if (!hasTarget || expPoint === bot.experience.points) {
-            bot.chat(`/m ${settings.whitelist[0]} 未發現指定生物`);
+            bot.chat(`/m ${settings.whitelist[0]} ${i18n.__('S_TARGET_NOT_FOUND')}`);
+
+            if (settings.discord.enable_bot) {
+                plugins.discord(bot, settings).sendMessage(`${bot.username} => ${i18n.__('S_TARGET_NOT_FOUND')}`);
+            }
         }
         expPoint = bot.experience.points;
     }, settings.attack.check_target_cycle_time * 1000);
 }
 
-/** 停止攻擊 */
-function stopAttack(settings: Settings) {
-    if (settings.attack.enable_detect_interrupt) {
-        clearInterval(detectAttackInterruptInterval!);
-    }
-
-    attacking = false;
+/** 停止偵測 */
+function stopDetectAttackInterrupt() {
+    clearInterval(detectAttackInterruptInterval!);
 }
 
 /** 將劍裝備到手上 */
@@ -95,6 +90,6 @@ function equipSword(bot: Bot, sender = '') {
 export default {
     startAttack,
     detectAttackInterrupt,
-    stopAttack,
+    stopDetectAttackInterrupt,
     equipSword
 };

@@ -1,9 +1,9 @@
 // Minecraft Plugins
-import { Bot, createBot } from "mineflayer";
+import { Bot, BotOptions, createBot } from "mineflayer";
 import { ChatMessage } from 'prismarine-chat';
 
 // Plugins
-import { createInterface } from 'readline';
+import { createInterface, Interface } from 'readline';
 import dayjs from 'dayjs';
 import inquirer from 'inquirer';
 
@@ -19,12 +19,11 @@ import { config, settings } from './customData';
 // CMD
 import { attack, inquire, web } from './cmd';
 
-let count = 0;
+let username = config.username;
+let password = config.password;
+let readline: Interface | null = null;
 
 async function startBot(isRestart = false) {
-    let username = config.username;
-    let password = config.password;
-
     if (!username) {
         await inquirer.prompt([
             {
@@ -53,22 +52,23 @@ async function startBot(isRestart = false) {
     });
 
     // 當機器人啟動時執行
-    bot.once('spawn', async () => botOnSpawn(bot, isRestart));
+    bot.once('spawn', () => botOnSpawn(bot, isRestart));
     // 當收到訊息時執行
-    bot.on('message', async msg => botOnMessage(bot, msg));
+    bot.on('message', async msg => botOnMessage(bot, msg, isRestart));
     // 當機器人斷線時執行
-    bot.once('end', reason => botOnEnd(reason));
+    bot.once('end', reason => botOnEnd(bot, reason));
 }
 
 function botOnSpawn(bot: Bot, isRestart: boolean) {
     if (!isRestart) {
-        registerReadline(bot);
+        readline = createInterface({
+            input: process.stdin,
+            output: process.stdout,
+            terminal: false
+        });
     }
 
-    // Discord 相關
-    if (settings.discord.enable_bot) {
-        plugins.discord.login(bot, settings.discord);
-    }
+    readlineEvent(bot);
 
     // 當前畫面查看服務
     if (settings.web.viewer) {
@@ -87,10 +87,16 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
         });
     }
 
+    // Discord 相關
+    if (!isRestart && settings.discord.enable_bot) {
+        plugins.discord(bot, settings).login();
+    }
+
     // 自動攻擊
     if (settings.attack.auto) {
         attack.startAttack(bot, settings);
 
+        // 偵測中斷
         if (settings.attack.enable_detect_interrupt) {
             attack.detectAttackInterrupt(bot, settings);
         }
@@ -98,10 +104,8 @@ function botOnSpawn(bot: Bot, isRestart: boolean) {
 
 }
 
-function botOnMessage(bot: Bot, msg: ChatMessage) {
-    if (!settings.health && validate.hasHealthMessage(msg.toString())) {
-        return;
-    }
+function botOnMessage(bot: Bot, msg: ChatMessage, isRestart: boolean) {
+    if (!settings.health && validate.hasHealthMessage(msg.toString())) return;
 
     // 收到私訊
     if (validate.hasWhisper(msg.toString())) {
@@ -109,13 +113,29 @@ function botOnMessage(bot: Bot, msg: ChatMessage) {
         const playerId = msgData[0];
         const message = msgData[3];
 
-        if (
-            // 私訊者是否在白名單內
-            validate.senderIsInWhitelist(settings.whitelist, playerId) &&
-            // 私訊開頭為`#`則使用指令
-            message.startsWith('#')
-        ) {
-            useCommand(bot, message.split('#')[1], playerId);
+        // 私訊者是否在白名單內
+        if (validate.senderIsInWhitelist(settings.whitelist, playerId)) {
+            switch (message.toUpperCase()) {
+                /** 查看經驗 */
+                case 'EXP':
+                    inquire(bot).bot(playerId).experience();
+                    break;
+                /** 查看手持物品 */
+                case 'HELDITEM':
+                    inquire(bot).bot(playerId).heldItem();
+                    break;
+                /** 裝備劍 */
+                case 'SWORD':
+                    attack.equipSword(bot, playerId);
+                    break;
+                /** 手動重啟 */
+                case 'RESTART':
+                    bot.quit(i18n.__('S_MANUAL_RESTART'));
+                    break;
+                default:
+                    bot.chat(`/m ${playerId} ${i18n.__('S_NO_COMMAND')}`)
+                    break;
+            }
         }
     }
 
@@ -128,76 +148,95 @@ function botOnMessage(bot: Bot, msg: ChatMessage) {
             : bot.chat(`/tpdeny ${playerId}`)
     }
 
+    // 重啟後將機器人傳送到指定的公傳
+    if (isRestart && validate.hasReportData(msg.toString())) {
+        if (settings.restart.enable_teleport && settings.restart.public_teleportation_id) {
+            bot.chat(`/warp ${settings.restart.public_teleportation_id}`);
+        }
+    }
+
     console.log(msg.toAnsi());
 }
 
-function botOnEnd(reason: string) {
-    console.log(`斷線原因：${reason}`);
-    console.log(`${msgTmp.sys} ${i18n.__('S_RECONNECT_IN_TEN_SECOND')}...\n@${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}`);
+function botOnEnd(bot: Bot, reason: string) {
+    console.log(i18n.__('S_DISCONNECT_REASON', { reason }));
+    console.log(`${msgTmp.sys} ${i18n.__('S_RECONNECT_IN_TEN_SECOND', { second: settings.restart.wait_time.toString() })}`);
+    console.log(`@${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')} `);
 
-    if (settings.attack.auto) {
-        attack.stopAttack(settings);
+    if (settings.discord.enable_bot) {
+        plugins.discord(bot, settings).sendMessage(`\`\`\`
+            ${i18n.__('S_DISCONNECT_REASON', { reason })}
+            ${i18n.__('S_RECONNECT_IN_TEN_SECOND', { second: settings.restart.wait_time.toString() })}
+            @${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}\`\`\``);
     }
 
-    setTimeout(() => {
-        startBot(true);
-    }, 10000);
+    // 斷線後移除 readline 偵聽 line 事件
+    if (readline) {
+        readline.removeAllListeners('line');
+    }
+
+    // 停止偵聽攻擊中斷
+    if (settings.attack.auto && settings.attack.enable_detect_interrupt) {
+        attack.stopDetectAttackInterrupt();
+    }
+
+    // 斷線後移除所有 bot 偵聽事件
+    bot.removeAllListeners();
+
+    setTimeout(() => startBot(true), settings.restart.wait_time * 1000);
 }
 
-function registerReadline(bot: Bot) {
-    const readline = createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        terminal: false
-    });
+function readlineEvent(bot: Bot) {
+    if (!readline) {
+        console.error('');
+        return;
+    }
 
     readline.on('line', async line => {
-        line.startsWith('#')
-            ? useCommand(bot, line.split('#')[1])
-            : bot.chat(line);
-    });
-}
+        if (line.startsWith('#')) {
+            switch (line.split('#')[1].toUpperCase()) {
+                /** 查看機器人資訊 */
+                case 'INFO':
+                    inquire(bot).terminal.botInfo();
+                    break;
+                /** 查看經驗 */
+                case 'EXP':
+                    inquire(bot).terminal.experience();
+                    break;
+                /** 查看手持物品 */
+                case 'HELDITEM':
+                    inquire(bot).terminal.heldItem();
+                    break;
+                /** 查看餘額 */
+                case 'BALANCE':
+                    inquire(bot).terminal.balance();
+                    break;
+                /** 裝備劍 */
+                case 'SWORD':
+                    attack.equipSword(bot);
+                    break;
+                /** 查看機器人當前背包 */
+                case 'BACKPACK':
+                    web.openBackpack(settings);
+                    break;
+                /** 查看機器人當前畫面 */
+                case 'VIEWER':
+                    web.openViewer(settings);
+                    break;
+                /** 手動重啟 */
+                case 'RESTART':
+                    bot.quit(i18n.__('S_MANUAL_RESTART'));
+                    break;
+                default:
+                    console.log(`${msgTmp.sys} ${i18n.__('S_NO_COMMAND')}`);
+                    break;
+            }
 
-function useCommand(bot: Bot, str: string, sender = '') {
-    switch (str.toUpperCase()) {
-        /** 查看機器人資訊 */
-        case 'INFO':
-            inquire.botInfo(bot);
-            break;
-        /** 查看經驗 */
-        case 'EXP':
-            inquire.experience(bot, sender);
-            break;
-        /** 查看手持物品 */
-        case 'HELDITEM':
-            inquire.heldItem(bot, sender);
-            break;
-        /** 查看餘額 */
-        case 'BALANCE':
-            inquire.balance(bot);
-            break;
-        /** 裝備劍 */
-        case 'SWORD':
-            attack.equipSword(bot, sender);
-            inquire.heldItem(bot, sender);
-            break;
-        /** 查看機器人當前背包 */
-        case 'BACKPACK':
-            web.openBackpack(settings);
-            break;
-        /** 查看機器人當前畫面 */
-        case 'VIWER':
-            web.openViewer(settings);
-            break;
-        case 'ATTACK':
-            attack.startAttack(bot, settings);
-            break;
-        default:
-            sender
-                ? bot.chat(`/m ${sender} ${i18n.__('S_NO_COMMAND')}`)
-                : console.log(`${msgTmp.sys} ${i18n.__('S_NO_COMMAND')}`);
-            break;
-    }
+            return;
+        }
+
+        bot.chat(line);
+    });
 }
 
 /** Main Place */

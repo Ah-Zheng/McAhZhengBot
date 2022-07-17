@@ -14,12 +14,26 @@ function senderIsInWhitelist(whitelsit: string[], sender: string) {
     return whitelsit.includes(sender);
 }
 
+/** 是否有人要傳送到機器人的位置 */
 function hasTpa(str: string) {
     return str.includes('要傳送到 你 的位置');
 }
 
+/** 是否有人要將機器人傳送走 */
 function hasTpaHere(str: string) {
     return str.includes('想要你傳送到 該玩家 的位置');
+}
+
+/** 驗證訊息含有「讀取統計資料成功」 */
+function hasReportData(str: string) {
+    return str.includes('讀取統計資料成功');
+}
+
+/** 已經傳送至指定的公傳 */
+function hasAlreadyTeleport(str: string, target: string) {
+    console.log('str.includes(傳送您至公共傳送點) :>> ', str.includes('傳送您至公共傳送點'));
+    console.log('str.includes(target) :>> ', str.includes(target));
+    return str.includes('傳送您至公共傳送點') && str.includes(target);
 }
 
 export {
@@ -27,5 +41,7 @@ export {
     hasWhisper,
     senderIsInWhitelist,
     hasTpa,
-    hasTpaHere
+    hasTpaHere,
+    hasReportData,
+    hasAlreadyTeleport
 };

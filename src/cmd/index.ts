@@ -10,4 +10,5 @@ export {
     inquire,
     attack,
     web
+    // useCommand
 };

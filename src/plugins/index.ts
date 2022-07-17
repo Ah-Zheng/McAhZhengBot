@@ -9,7 +9,7 @@ import discord from './discord';
 import spinner from './nanospinner';
 
 const inventoryViwer = require('mineflayer-web-inventory');
-const mineflayerViwer = require('prismarine-viewer').mineflayer;
+const mineflayerViwer = require('prismarine-viewer').mineflayer
 
 export interface ThirdPartyOptions {
     /** 機器人實例 */

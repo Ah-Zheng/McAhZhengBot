@@ -42,16 +42,25 @@ export interface Attack {
 }
 
 export interface Discord {
+    /** 是否啟用DC Bot */
+    enable_bot: boolean;
+    /** 是否啟用發送訊息到頻道的功能 */
+    enable_send_to_channel: boolean;
     /** Discord Bot Token  */
     token: string;
     /** 頻道ID */
     channel_id: string;
     /** 用戶ID */
     user_id: string;
-    /** 是否啟用DC Bot */
-    enable_bot: boolean;
-    /** 是否啟用發送訊息到頻道的功能 */
-    enable_send_to_channel: boolean;
+}
+
+export interface Restart {
+    /** 重啟等待時間 */
+    wait_time: number;
+    /** 是否啟用重啟後傳送回指定公傳 */
+    enable_teleport: boolean;
+    /** 指定公傳ID */
+    public_teleportation_id: string;
 }
 
 export interface Settings {
@@ -65,6 +74,8 @@ export interface Settings {
     discord: Discord;
     /** 攻擊相關設定 */
     attack: Attack;
+    /** 重啟相關設定 */
+    restart: Restart;
 }
 
 const config: Config = require(`${process.cwd()}/config.json`);

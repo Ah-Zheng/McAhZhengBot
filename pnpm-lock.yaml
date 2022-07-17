@@ -3,9 +3,9 @@ lockfileVersion: 5.4
 specifiers:
   '@types/figlet': ^1.5.4
   '@types/gradient-string': ^1.1.2
-  '@types/i18n': ^0.13.3
+  '@types/i18n': ^0.13.4
   '@types/inquirer': ^8.2.1
-  '@types/node': ^18.0.4
+  '@types/node': ^18.0.5
   chalk: 4.1.2
   dayjs: ^1.11.3
   discord.js: ^13.8.1
@@ -19,6 +19,7 @@ specifiers:
   open: ^8.4.0
   pkg: ^5.7.0
   prismarine-chat: ^1.6.1
+  prismarine-tokens-fixed: ^1.1.2
   prismarine-viewer: ^1.23.0
   ts-node: ^10.8.2
   typescript: ^4.7.4
@@ -36,6 +37,7 @@ dependencies:
   nanospinner: 1.1.0
   open: 8.4.0
   prismarine-chat: 1.6.1
+  prismarine-tokens-fixed: 1.1.2
   prismarine-viewer: 1.23.0
 
 devDependencies:
@@ -43,9 +45,9 @@ devDependencies:
   '@types/gradient-string': 1.1.2
   '@types/i18n': 0.13.4
   '@types/inquirer': 8.2.1
-  '@types/node': 18.0.4
+  '@types/node': 18.0.5
   pkg: 5.8.0
-  ts-node: 10.9.1_2zqz24ol5yhbv2blv4fh7akzrq
+  ts-node: 10.9.1_47blntjhuqtdxyxfczkfdvsynq
   typescript: 4.7.4
 
 packages:
@@ -285,24 +287,24 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
       form-data: 3.0.1
     dev: false
 
-  /@types/node/18.0.4:
-    resolution: {integrity: sha512-M0+G6V0Y4YV8cqzHssZpaNCqvYwlCiulmm0PwpNLF55r/+cT8Ol42CHRU1SEaYFH2rTwiiE1aYg/2g2rrtGdPA==}
+  /@types/node/18.0.5:
+    resolution: {integrity: sha512-En7tneq+j0qAiVwysBD79y86MT3ModuoIJbe7JXp+sb5UAjInSShmK3nXXMioBzfF7rXC12hv12d4IyCVwN4dA==}
 
   /@types/readable-stream/2.3.13:
     resolution: {integrity: sha512-4JSCx8EUzaW9Idevt+9lsRAt1lcSccoQfE+AouM1gk8sFxnnytKNIO3wTl9Dy+4m6jRJ1yXhboLHHT/LXBQiEw==}
     dependencies:
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
       safe-buffer: 5.2.1
     dev: false
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
     dev: true
 
   /@types/tinycolor2/1.4.3:
@@ -311,7 +313,7 @@ packages:
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
     dev: false
 
   /@xboxreplay/errors/0.1.0:
@@ -837,7 +839,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -1891,6 +1893,14 @@ packages:
       prismarine-nbt: 2.2.1
     dev: false
 
+  /prismarine-tokens-fixed/1.1.2:
+    resolution: {integrity: sha512-LU6BBZPCendffH6FUoUAs8A10Be23Qd26t93mMasGbWEyJG1muRYIOBzZOMJYqUXvP4UHiFMGoUu7K8w1dhwcw==}
+    dependencies:
+      yggdrasil: github.com/zekesonxx/node-yggdrasil/fc9f9a3b5c728215f523f1bc5e29578e96adcf82
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /prismarine-viewer/1.23.0:
     resolution: {integrity: sha512-r45yc924ry5j4C0ZS87BFZ0KiuIwHGqVxiocZdBTTYbO22ewAn/ub/a1HsVbJ+/+7/xtWJ5r9dfvYMxweHGCAQ==}
     dependencies:
@@ -2245,7 +2255,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
       accepts: 1.3.8
       base64id: 2.0.0
       debug: 4.3.4
@@ -2420,7 +2430,7 @@ packages:
     resolution: {integrity: sha512-hvE+ZYXuINrx6Ei6D6hz+PTim0Uf++dYbK9FFifLNwQj+RwKquhQpn868yZsCtJYiclZF1u8l6WZxxKi+vv7Rg==}
     dev: false
 
-  /ts-node/10.9.1_2zqz24ol5yhbv2blv4fh7akzrq:
+  /ts-node/10.9.1_47blntjhuqtdxyxfczkfdvsynq:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -2439,7 +2449,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
-      '@types/node': 18.0.4
+      '@types/node': 18.0.5
       acorn: 8.7.1
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -2655,3 +2665,14 @@ packages:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
     engines: {node: '>=6'}
     dev: true
+
+  github.com/zekesonxx/node-yggdrasil/fc9f9a3b5c728215f523f1bc5e29578e96adcf82:
+    resolution: {commit: fc9f9a3b5c728215f523f1bc5e29578e96adcf82, repo: git+ssh://git@github.com/zekesonxx/node-yggdrasil.git, type: git}
+    name: yggdrasil
+    version: 1.7.0
+    dependencies:
+      node-fetch: 2.6.7
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - encoding
+    dev: false
