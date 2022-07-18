@@ -11,7 +11,7 @@ import inquirer from 'inquirer';
 import plugins from './plugins';
 
 // Utils
-import { validate, msgTmp, i18n } from './utils';
+import { validate, msgTmp, i18n, tool } from './utils';
 
 // Custom Data
 import { config, settings } from './customData';
@@ -166,10 +166,11 @@ function botOnEnd(bot: Bot, reason: string) {
     console.log(`@${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')} `);
 
     if (settings.discord.enable_bot) {
-        plugins.discord(bot, settings).sendMessage(`\`\`\`
-            ${i18n.__('S_DISCONNECT_REASON', { reason })}
-            ${i18n.__('S_RECONNECT_IN_TEN_SECOND', { second: settings.restart.wait_time.toString() })}
-            @${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}\`\`\``);
+        plugins.discord(bot, settings).sendMessage(msgTmp.discordBlock(
+            tool.removeLeadingSpace(`${i18n.__('S_DISCONNECT_REASON', { reason })}
+                ${i18n.__('S_RECONNECT_IN_TEN_SECOND', { second: settings.restart.wait_time.toString() })}
+                @${dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')}`)
+        ));
     }
 
     // 斷線後移除 readline 偵聽 line 事件

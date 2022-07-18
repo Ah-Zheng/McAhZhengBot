@@ -43,6 +43,13 @@ function renderGold(str: string) {
     return chalk.hex('#FFD700')(str);
 }
 
+/**
+ * Discord Block
+ */
+function discordBlock(str: string) {
+    return `\`\`\`\n${str}\n\`\`\``;
+}
+
 export {
     botBanner,
     sys,
@@ -51,5 +58,6 @@ export {
     renderGreen,
     renderDCBlue,
     renderAzureBlue,
-    renderGold
+    renderGold,
+    discordBlock
 };

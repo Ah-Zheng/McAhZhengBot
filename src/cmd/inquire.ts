@@ -3,7 +3,7 @@
  */
 
 import { Bot } from 'mineflayer';
-import { i18n, msgTmp } from '../utils';
+import { i18n, msgTmp, tool } from '../utils';
 import chalk from 'chalk';
 
 const inquire = (bot: Bot) => ({
@@ -62,16 +62,13 @@ const inquire = (bot: Bot) => ({
             ? i18n.__('S_HAND_HELD', { item: bot.heldItem.displayName })
             : i18n.__('S_DO_NOT_DELD_ANY')
         ),
-        botInfo: () => (
-            `\`\`\`
-            ${i18n.__('S_NAME', { name: bot.username })}
-            ${i18n.__('S_HEALTH', { health: Math.ceil(bot.health).toString() })}
-            ${i18n.__('S_FOOD', { food: Math.ceil(bot.food).toString() })}
-            ${i18n.__('S_LEVEL', {
-                level: bot.experience.level.toString(),
-                progress: Math.ceil(bot.experience.progress * 100).toString()
-            })}
-            ${i18n.__('S_HAND_HELD', { item: bot.heldItem ? bot.heldItem.displayName : i18n.__('S_NOTHING') })}\`\`\``)
+        botInfo: () => msgTmp.discordBlock(
+            tool.removeLeadingSpace(`${i18n.__('S_NAME', { name: bot.username })}
+                ${i18n.__('S_HEALTH', { health: Math.ceil(bot.health).toString() })}
+                ${i18n.__('S_FOOD', { food: Math.ceil(bot.food).toString() })}
+                ${i18n.__('S_LEVEL', { level: bot.experience.level.toString(), progress: Math.ceil(bot.experience.progress * 100).toString() })}
+                ${i18n.__('S_HAND_HELD', { item: bot.heldItem ? bot.heldItem.displayName : i18n.__('S_NOTHING') })}`)
+        )
     }
 });
 
