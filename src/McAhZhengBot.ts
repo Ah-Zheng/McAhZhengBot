@@ -1,5 +1,5 @@
 // Minecraft Plugins
-import { Bot, BotOptions, createBot } from "mineflayer";
+import { Bot, createBot } from "mineflayer";
 import { ChatMessage } from 'prismarine-chat';
 
 // Plugins
@@ -45,6 +45,8 @@ async function startBot(isRestart = false) {
 
     const bot = createBot({
         host: config.server,
+        port: config.port,
+        version: config.version,
         username,
         password,
         auth: config.auth,
@@ -177,7 +179,7 @@ function botOnEnd(bot: Bot, reason: string) {
 
     // 停止偵聽攻擊中斷
     if (settings.attack.auto && settings.attack.enable_detect_interrupt) {
-        attack.stopDetectAttackInterrupt();
+        attack.stopDetectAttack();
     }
 
     // 斷線後移除所有 bot 偵聽事件

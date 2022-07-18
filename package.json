@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "ts-node ./src/McAhZhengBot.ts",
     "build": "./build.sh",
-    "zip": "zip McAhZhengBot.zip ./McAhZhengBot"
+    "zip": "zip -r McAhZhengBot.zip ./McAhZhengBot/"
   },
   "dependencies": {
     "chalk": "4.1.2",
@@ -26,12 +26,23 @@
     "nanospinner": "^1.1.0",
     "open": "^8.4.0",
     "prismarine-chat": "^1.6.1",
-    "prismarine-tokens-fixed": "^1.1.2",
     "prismarine-viewer": "^1.23.0"
   },
   "pkg": {
     "assets": [
-      "/node_modules/**",
+      "/node_modules/chalk",
+      "/node_modules/dayjs",
+      "/node_modules/discord.js",
+      "/node_modules/figlet",
+      "/node_modules/gradient-string",
+      "/node_modules/i18n",
+      "/node_modules/inquirer",
+      "/node_modules/mineflayer",
+      "/node_modules/mineflayer-web-inventory",
+      "/node_modules/nanospinner",
+      "/node_modules/open",
+      "/node_modules/prismarine-chat",
+      "/node_modules/prismarine-viewer",
       "./dist/customData.js",
       "./dist/**/*.js"
     ]

@@ -6,7 +6,7 @@ fi
 
 pnpm tsc -p ./tsconfig.json
 
-pkg -c package.json -t "node16-${system}-x64" -o ./McAhZhengBot/McAhZhengBot ./dist/McAhZhengBot.js
+pkg -c package.json -t "node16-${system}-x64" -o ./McAhZhengBot/McAhZhengBot -C GZip ./dist/McAhZhengBot.js
 
 cp -r ./language ./McAhZhengBot
 cp settings.json ./McAhZhengBot

@@ -59,7 +59,7 @@ function detectAttackInterrupt(bot: Bot, settings: Settings) {
 }
 
 /** 停止偵測 */
-function stopDetectAttackInterrupt() {
+function stopDetectAttack() {
     clearInterval(detectAttackInterruptInterval!);
 }
 
@@ -90,6 +90,6 @@ function equipSword(bot: Bot, sender = '') {
 export default {
     startAttack,
     detectAttackInterrupt,
-    stopDetectAttackInterrupt,
+    stopDetectAttack,
     equipSword
 };

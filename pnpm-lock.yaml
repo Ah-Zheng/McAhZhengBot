@@ -19,7 +19,6 @@ specifiers:
   open: ^8.4.0
   pkg: ^5.7.0
   prismarine-chat: ^1.6.1
-  prismarine-tokens-fixed: ^1.1.2
   prismarine-viewer: ^1.23.0
   ts-node: ^10.8.2
   typescript: ^4.7.4
@@ -37,7 +36,6 @@ dependencies:
   nanospinner: 1.1.0
   open: 8.4.0
   prismarine-chat: 1.6.1
-  prismarine-tokens-fixed: 1.1.2
   prismarine-viewer: 1.23.0
 
 devDependencies:
@@ -1893,14 +1891,6 @@ packages:
       prismarine-nbt: 2.2.1
     dev: false
 
-  /prismarine-tokens-fixed/1.1.2:
-    resolution: {integrity: sha512-LU6BBZPCendffH6FUoUAs8A10Be23Qd26t93mMasGbWEyJG1muRYIOBzZOMJYqUXvP4UHiFMGoUu7K8w1dhwcw==}
-    dependencies:
-      yggdrasil: github.com/zekesonxx/node-yggdrasil/fc9f9a3b5c728215f523f1bc5e29578e96adcf82
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /prismarine-viewer/1.23.0:
     resolution: {integrity: sha512-r45yc924ry5j4C0ZS87BFZ0KiuIwHGqVxiocZdBTTYbO22ewAn/ub/a1HsVbJ+/+7/xtWJ5r9dfvYMxweHGCAQ==}
     dependencies:
@@ -2561,7 +2551,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
 
   /wrap-ansi/7.0.0:
@@ -2665,14 +2655,3 @@ packages:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
     engines: {node: '>=6'}
     dev: true
-
-  github.com/zekesonxx/node-yggdrasil/fc9f9a3b5c728215f523f1bc5e29578e96adcf82:
-    resolution: {commit: fc9f9a3b5c728215f523f1bc5e29578e96adcf82, repo: git+ssh://git@github.com/zekesonxx/node-yggdrasil.git, type: git}
-    name: yggdrasil
-    version: 1.7.0
-    dependencies:
-      node-fetch: 2.6.7
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - encoding
-    dev: false
