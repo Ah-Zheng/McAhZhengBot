@@ -15,7 +15,7 @@ function startAttack(bot: Bot, settings: Settings) {
     const preyList = settings.attack.list;
     let count = 0;
 
-    const autoAttackLoop = () => {
+    const autoAttackLoop = async () => {
         count++;
 
         if (count === settings.attack.interval_ticks) {
@@ -28,7 +28,7 @@ function startAttack(bot: Bot, settings: Settings) {
                     // 比對是否為要攻擊的目標
                     preyList.includes(bot.entities[preyEntity].name as string)
                 ) {
-                    bot.attack(bot.entities[preyEntity]);
+                    await bot.attack(bot.entities[preyEntity]);
 
                     if (!hasTarget) {
                         hasTarget = true

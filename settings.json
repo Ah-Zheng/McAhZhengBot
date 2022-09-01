@@ -16,7 +16,7 @@
         "channel_id": ""
     },
     "attack": {
-        "auto": false,
+        "auto": true,
         "interval_ticks": 10,
         "enable_detect_interrupt": true,
         "check_target_cycle_time": 30,

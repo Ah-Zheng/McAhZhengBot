@@ -2,14 +2,14 @@
   "name": "mc_ahzheng_bot",
   "version": "1.0.1",
   "description": "ahzheng bot",
-  "main": "McAhZhengBot.ts",
+  "main": "index.ts",
   "type": "commonjs",
   "license": "MIT",
   "engines": {
     "node": ">= 16"
   },
   "scripts": {
-    "dev": "ts-node ./src/McAhZhengBot.ts",
+    "dev": "ts-node ./src/index.ts",
     "build": "./build.sh",
     "zip": "zip -r McAhZhengBot.zip ./McAhZhengBot/"
   },

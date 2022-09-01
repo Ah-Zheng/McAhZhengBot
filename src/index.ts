@@ -6,19 +6,19 @@ import { ChatMessage } from 'prismarine-chat';
 import { createInterface, Interface } from 'readline';
 import dayjs from 'dayjs';
 import inquirer from 'inquirer';
+import open from "open";
 
 // Custom Plugins
-import plugins from './plugins';
+import plugins from './plugins/index';
 
 // Utils
-import { validate, msgTmp, i18n, tool } from './utils';
-
-// Custom Data
-import { config, settings } from './customData';
+import { validate, msgTmp, i18n, tool } from './utils/index';
 
 // CMD
-import { attack, inquire, web } from './cmd';
+import { attack, inquire, web } from './cmd/index';
 
+const config: CustomData.Config = require(`${process.cwd()}/config.json`);
+const settings: CustomData.Settings = require(`${process.cwd()}/settings.json`);
 let username = config.username;
 let password = config.password;
 let readline: Interface | null = null;
@@ -44,13 +44,18 @@ async function startBot(isRestart = false) {
     }
 
     const bot = createBot({
-        host: config.server,
+        host: config.host,
         port: config.port,
         version: config.version,
         username,
         password,
         auth: config.auth,
-        physicsEnabled: true
+        physicsEnabled: true,
+        disableChatSigning: false,
+        onMsaCode(data) {
+            open(data.verification_uri);
+            console.log(`驗證碼: ${data.user_code}`);
+        },
     });
 
     // 當機器人啟動時執行
@@ -247,7 +252,7 @@ try {
     console.log(msgTmp.botBanner);
     console.log('Author：AhZheng');
     console.log('Discord：阿正#6058');
-    console.log(`server：${config.server}\n`);
+    console.log(`server：${config.host}\n`);
 
     startBot();
 } catch (error) {
